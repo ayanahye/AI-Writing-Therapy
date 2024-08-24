@@ -19,7 +19,9 @@ def analyze_emotion(text):
 
 
 def generate_text(prompt):
-    inputs = tokenizer.encode(prompt, return_tensors="pt")
+
+    story_prompt = f'Help write a creative story that continues from {prompt}'
+    inputs = tokenizer.encode(story_prompt, return_tensors="pt")
 
     attention_mask = torch.ones(inputs.shape, dtype=torch.long)
 
@@ -36,7 +38,8 @@ def generate_text(prompt):
         do_sample=True,
         no_repeat_ngram_size=2
     )    
-    return tokenizer.decode(outputs[0], skip_special_tokens=True)
+    generate_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    return f'{prompt}, {generate_text[len(story_prompt):]}'
 
 def give_feedback(emotion):
     if emotion['label'] == 'POSITIVE':
@@ -45,6 +48,35 @@ def give_feedback(emotion):
         return "It seems your writing reflects some negative emotions. Want to explore why?"
     else:
         return "Your writing is quite neutral. Maybe dive deeper into your feelings?"
+
+@csrf_exempt
+@require_POST
+def generate_poem_line(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        user_line = data.get('line', '')
+
+        poetic_prompt = f"Write a rhyming poetic line that follows this: '{user_line}'. Ensure the line has a rhythmic and poetic feel."
+
+        inputs = tokenizer.encode(poetic_prompt, return_tensors="pt")
+        attention_mask = torch.ones(inputs.shape, dtype=torch.long)
+
+        outputs = model.generate(
+            inputs, 
+            attention_mask=attention_mask,
+            max_length=30,
+            min_length=15,
+            num_return_sequences=1,
+            pad_token_id=tokenizer.eos_token_id,
+            temperature=0.8,
+            top_k=50,
+            top_p=0.9,
+            do_sample=True,
+            no_repeat_ngram_size=2
+        )
+
+        ai_line = tokenizer.decode(outputs[0], skip_special_tokens=True)
+        return JsonResponse({'ai_line': ai_line[len(poetic_prompt):]})
 
 @csrf_exempt
 @require_POST

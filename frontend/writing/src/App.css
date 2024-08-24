@@ -1,32 +1,36 @@
 body {
+  font-family: 'Georgia', serif;
   margin: 0;
-  font-family: 'Garamond', serif;
-  background: linear-gradient(to bottom right, #f3e8e3, #d0c4a0);
-  color: #4a3c2d;
+  padding: 0;
+  background-color: #da98ef; 
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh; 
 }
 
 .App {
+  padding: 20px;
   text-align: center;
-  max-width: 1200px;
-  width: 100%;
 }
 
 .header {
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
-.header h1 {
-  font-size: 3em;
-  color: #534716;
-  font-family: 'Cinzel', serif;
+h1 {
+  color: #5b3a29;
+  font-size: 2.5rem;
+  margin: 0;
 }
 
-.form-section {
-  margin-bottom: 40px;
+.form-section,
+.poem-section {
+  background-color: #fff9f2;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  padding: 20px;
+  margin: 20px auto;
 }
 
 .form {
@@ -36,43 +40,75 @@ body {
 }
 
 .textarea {
-  border: 2px solid #8b5e3c;
-  border-radius: 10px;
-  padding: 10px;
-  background-color: rgba(255, 255, 255, 0.8);
-  font-family: 'Garamond', serif;
-  font-size: 1em;
-  color: #333;
   width: 100%;
   max-width: 600px;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #d2b6a6; 
+  margin-bottom: 15px;
+  font-size: 16px;
+  background-color: #f7f4f0; 
 }
 
 .submit-button {
-  background-color: #6e4b3c;
-  color: #fff;
+  padding: 12px 24px;
   border: none;
-  border-radius: 10px;
-  padding: 10px 20px;
-  font-size: 1em;
+  border-radius: 6px;
+  background-color: #6d4c41; 
+  color: #fff;
+  font-size: 16px;
   cursor: pointer;
-  margin-top: 10px;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 .submit-button:hover {
-  background-color: #8b5e3c;
+  background-color: #4e342e; 
 }
 
 .results-section {
-  margin-top: 20px;
+  margin-top: 30px;
+  padding: 15px;
+  background-color: #fff9f2; 
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: left;
 }
 
 .results-section h2 {
-  color: #8b5e3c;
-  font-size: 1.5em;
+  color: #5b3a29; 
+  font-size: 1.5rem;
 }
 
 .results-section p {
-  font-size: 1.1em;
-  color: #333;
+  font-size: 16px;
+  color: #4e342e; 
+}
+
+.poem-section {
+  margin-top: 30px;
+}
+
+.poem-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.poem-form .textarea {
+  margin-bottom: 15px;
+}
+
+.poem-lines {
+  margin-top: 20px;
+  background-color: #fff9f2; 
+  padding: 15px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.poem-lines p {
+  margin: 8px 0;
+  font-size: 16px;
+  color: #4e342e;
 }
