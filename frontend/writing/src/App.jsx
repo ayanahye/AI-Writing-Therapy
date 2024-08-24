@@ -6,7 +6,7 @@ function App() {
   const [userInput, setUserInput] = useState('');
   const [feedback, setFeedback] = useState('');
   const [continuation, setContinuation] = useState('');
-
+  const [submitted, setSubmit] = useState(false);
   // Poetry
   const [poemLines, setPoemLines] = useState([]);
   const [currentTurn, setCurrentTurn] = useState('user');
@@ -30,6 +30,7 @@ function App() {
 
   const handlePoemSubmit = async (event) => {
     event.preventDefault();
+    setSubmit(true);
     if (currentTurn === 'user') {
       setPoemLines([...poemLines, `User: ${poemInput}`]);
       setPoemInput('');
@@ -67,7 +68,12 @@ function App() {
             rows="8" 
             cols="50" 
           />
-          <button className='submit-button' type="submit">Submit</button>
+          <button 
+            className='submit-button' 
+            type="submit"
+          >
+            {submitted ? "Loading..." : "Submit"} 
+          </button>
         </form>
         <div className='results-section'>
           <h3>Feedback:</h3>

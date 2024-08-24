@@ -1,15 +1,15 @@
 from django.shortcuts import render
-from transformers import pipeline, GPT2LMHeadModel, GPT2Tokenizer
+from transformers import BartForConditionalGeneration, BartTokenizer, pipeline
 import torch
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 import json
 
-# Create your views here.
-model_name = "gpt2"
-tokenizer = GPT2Tokenizer.from_pretrained(model_name)
-model = GPT2LMHeadModel.from_pretrained(model_name)
+model_name = "facebook/bart-large"
+tokenizer = BartTokenizer.from_pretrained(model_name)
+model = BartForConditionalGeneration.from_pretrained(model_name)
+
 sentiment_analysis = pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")
 
 def analyze_emotion(text):
@@ -17,29 +17,24 @@ def analyze_emotion(text):
     print(result)
     return result[0]
 
-
 def generate_text(prompt):
-
     story_prompt = f'Help write a creative story that continues from {prompt}'
     inputs = tokenizer.encode(story_prompt, return_tensors="pt")
 
-    attention_mask = torch.ones(inputs.shape, dtype=torch.long)
-
     outputs = model.generate(
-        inputs, 
-        attention_mask=attention_mask,
-        max_length=100, 
+        inputs,
+        max_length=100,
         min_length=30,
         num_return_sequences=1,
-        pad_token_id = tokenizer.eos_token_id,
         temperature=0.7,
         top_k=50,
         top_p=0.95,
         do_sample=True,
         no_repeat_ngram_size=2
-    )    
-    generate_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    return f'{prompt}, {generate_text[len(story_prompt):]}'
+    )
+    
+    generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    return f'{prompt}, {generated_text[len(story_prompt):]}'
 
 def give_feedback(emotion):
     if emotion['label'] == 'POSITIVE':
@@ -56,27 +51,23 @@ def generate_poem_line(request):
         data = json.loads(request.body)
         user_line = data.get('line', '')
 
-        poetic_prompt = f"Write a rhyming poetic line that follows this: '{user_line}'. Ensure the line has a rhythmic and poetic feel."
+        poetic_prompt = f"Complete the following poetic line with rhyming and rhythm: '{user_line}'."
 
         inputs = tokenizer.encode(poetic_prompt, return_tensors="pt")
-        attention_mask = torch.ones(inputs.shape, dtype=torch.long)
-
         outputs = model.generate(
-            inputs, 
-            attention_mask=attention_mask,
-            max_length=30,
-            min_length=15,
+            inputs,
+            max_length=100,
+            min_length=30,
             num_return_sequences=1,
-            pad_token_id=tokenizer.eos_token_id,
-            temperature=0.8,
+            temperature=0.7,
             top_k=50,
-            top_p=0.9,
+            top_p=0.95,
             do_sample=True,
             no_repeat_ngram_size=2
         )
 
         ai_line = tokenizer.decode(outputs[0], skip_special_tokens=True)
-        return JsonResponse({'ai_line': ai_line[len(poetic_prompt):]})
+        return JsonResponse({'ai_line': ai_line[len(poetic_prompt)-1:]})
 
 @csrf_exempt
 @require_POST
@@ -104,4 +95,3 @@ def index(request):
             'continuation': continuation,
         })
     return render(request, 'writing/index.html')
-
