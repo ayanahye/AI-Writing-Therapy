@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Writing Therapy</title>
+</head>
+<body>
+    <h1>Creative Writing Therapy</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <textarea name="user_input" rows="10" cols="50"></textarea><br>
+        <input type="submit" value="Submit">
+    </form>
+    {% if feedback %}
+        <h2>Feedback</h2>
+        <p>{{ feedback }}</p>
+        <h2>Continue Your Story</h2>
+        <p>{{ continuation }}</p>
+    {% endif %}
+</body>
+</html>
