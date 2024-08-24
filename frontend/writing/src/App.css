@@ -1,15 +1,78 @@
+body {
+  margin: 0;
+  font-family: 'Garamond', serif;
+  background: linear-gradient(to bottom right, #f3e8e3, #d0c4a0);
+  color: #4a3c2d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 .App {
   text-align: center;
-  margin: 20px;
+  max-width: 1200px;
+  width: 100%;
 }
 
-textarea {
-  width: 80%;
-  margin: 10px;
+.header {
+  margin-bottom: 40px;
 }
 
-button {
-  margin: 10px;
+.header h1 {
+  font-size: 3em;
+  color: #534716;
+  font-family: 'Cinzel', serif;
+}
+
+.form-section {
+  margin-bottom: 40px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.textarea {
+  border: 2px solid #8b5e3c;
+  border-radius: 10px;
   padding: 10px;
-  font-size: 16px;
+  background-color: rgba(255, 255, 255, 0.8);
+  font-family: 'Garamond', serif;
+  font-size: 1em;
+  color: #333;
+  width: 100%;
+  max-width: 600px;
+}
+
+.submit-button {
+  background-color: #6e4b3c;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #8b5e3c;
+}
+
+.results-section {
+  margin-top: 20px;
+}
+
+.results-section h2 {
+  color: #8b5e3c;
+  font-size: 1.5em;
+}
+
+.results-section p {
+  font-size: 1.1em;
+  color: #333;
 }

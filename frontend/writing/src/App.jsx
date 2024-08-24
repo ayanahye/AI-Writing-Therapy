@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+import './App.css';
 
 function App() {
   const [userInput, setUserInput] = useState('');
@@ -9,7 +10,7 @@ function App() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/', {user_input: userInput}, {
+      const response = await axios.post('http://127.0.0.1:8000/api/', { user_input: userInput }, {
         headers: {
           'Content-Type': 'application/json',
         }
@@ -23,21 +24,30 @@ function App() {
 
   return (
     <div className='App'>
-      <h1>Creative Writing Therapy</h1>
-      <form onSubmit={handleSubmit}>
-        <textarea value={userInput} onChange={(e) => setUserInput(e.target.value)} placeholder='Enter your story here...' rows="5" cols="50"/>
-        <br />
-        <button type="submit">Submit</button>
-      </form>
-      <div>
+      <header className='header'>
+        <h1>Creative Writing Therapy</h1>
+      </header>
+      <section className='form-section'>
+        <form onSubmit={handleSubmit} className='form'>
+          <textarea 
+            className='textarea' 
+            value={userInput} 
+            onChange={(e) => setUserInput(e.target.value)} 
+            placeholder='Enter your story here...' 
+            rows="8" 
+            cols="50" 
+          />
+          <button className='submit-button' type="submit">Submit</button>
+        </form>
+      </section>
+      <section className='results-section'>
         <h2>Feedback:</h2>
         <p>{feedback}</p>
         <h2>Generated Continuation:</h2>
         <p>{continuation}</p>
-      </div>
+      </section>
     </div>
-  )
-
+  );
 }
 
 export default App;
